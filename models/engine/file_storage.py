@@ -15,10 +15,28 @@ class FileStorage():
     __file_path = "file.json"
     __objects = {}
 
-    def all(self):
+    def delete(self, obj=None):
         '''
-        Returns all deserialized objects in a dict.
+        Deletes input object from file storage
         '''
+        if obj is not None:
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            if key in self.__objects:
+                del self.__objects[key]
+                self.save()
+
+    def all(self, cls=None):
+        '''
+        Returns all or all that matches a class of deserialized
+        objects in a dict.
+        '''
+        if cls is not None:
+            filtered_obj = {}
+            for key, value in self.__objects.items():
+                cls_name, i_d = key.split('.')
+                if cls_name == cls:
+                    filtered_obj[key] = value
+                    return filtered_obj
         return self.__objects
 
     def new(self, obj):
@@ -43,10 +61,11 @@ class FileStorage():
 
     def reload(self):
         '''
-        Performs a file check and reloads the into __objects
+        Performs a file check and` reloads the into __objects
         deserialzed objects of the BaseModel class, if the
         exists.
         '''
+
         if os.path.exists(self.__file_path):
             with open(self.__file_path, 'r', encoding="utf-8") as f:
                 try:
