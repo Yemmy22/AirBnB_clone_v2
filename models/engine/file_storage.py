@@ -23,7 +23,7 @@ class FileStorage():
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
             if key in self.__objects:
                 del self.__objects[key]
-                self.save()
+            self.save()
 
     def all(self, cls=None):
         '''
@@ -34,9 +34,9 @@ class FileStorage():
             filtered_obj = {}
             for key, value in self.__objects.items():
                 cls_name, i_d = key.split('.')
-                if cls_name == cls:
+                if cls_name == cls.__name__:
                     filtered_obj[key] = value
-                    return filtered_obj
+            return filtered_obj
         return self.__objects
 
     def new(self, obj):
@@ -79,6 +79,7 @@ class FileStorage():
                         from models.place import Place
                         from models.amenity import Amenity
                         from models.review import Review
-                        self.__objects[name] = eval(class_name)(**obj_dict)
+
+                        self.__objects[name] = class_name.__name__(**obj_dict)
                 except Exception:
                     pass
