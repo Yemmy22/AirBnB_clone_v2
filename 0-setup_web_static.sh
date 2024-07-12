@@ -35,7 +35,7 @@ fi
 sudo mkdir -p /data/web_static/releases/test/
 sudo mkdir -p /data/web_static/shared/
 sudo echo "$content" | sudo tee /data/web_static/releases/test/index.html > /dev/null
-ln -sf /data/web_static/releases/test/ /data/web_static/current/
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo echo "$conf" | sudo tee /etc/nginx/sites-available/default > /dev/null
 sudo chown -R ubuntu:ubuntu /data/
 sudo service nginx restart
