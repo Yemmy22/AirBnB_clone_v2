@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import os
 from fabric.api import local, run
 from datetime import datetime
