@@ -15,7 +15,7 @@ def do_pack():
 
     if not os.path.exists("versions"):
         local('mkdir versions')
-        
+
     status = local('tar -cvzf {} web_static'.format(archive_name))
     if status.succeeded and os.path.exists(archive_name):
         return archive_name
