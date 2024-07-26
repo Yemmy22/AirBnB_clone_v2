@@ -1,0 +1,1 @@
+This project is about the application of flask web frameworks which is progresses the state of the Airbnb project. The aim is to generate, web pages using flask Web Server Gateway Interface (WSGI) and Jinja2 Web Templates to generate web pages dynamically.
