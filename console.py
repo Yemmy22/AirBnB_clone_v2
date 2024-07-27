@@ -60,7 +60,7 @@ class HBNBCommand(cmd.Cmd):
                     key, value = param.split('=')
                     if value.startswith('"') and value.endswith('"'):
                         value = value.strip('"').replace(
-                                '\"', '"').replace('_', ' ')
+                                '"', '\"').replace('_', ' ')
                         value = str(value)
 
                     elif '.' in value:
