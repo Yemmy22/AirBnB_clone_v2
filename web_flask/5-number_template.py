@@ -8,6 +8,7 @@ from markupsafe import escape
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
+
 @app.route("/")
 def start_web_app():
     return "Hello HBNB!"
@@ -27,7 +28,7 @@ def c_slash_text(text):
 
 
 @app.route('/python', defaults={'text': 'is cool'})
-@app.route('/python/<text>', strict_slashes=False)
+@app.route('/python/<text>')
 def redirect_python(text):
     if text:
         if '_' in text:
