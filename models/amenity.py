@@ -4,7 +4,7 @@ An Amenity module.
 '''
 
 from models.base_model import BaseModel
-from models.__init__ import storage
+import models
 
 
 class Amenity(BaseModel):
