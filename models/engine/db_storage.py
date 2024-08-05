@@ -11,6 +11,7 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
+
 class DBStorage():
     __engine = None
     __session = None
@@ -45,7 +46,7 @@ class DBStorage():
         if cls:
             obj_list = self.__session.query(cls)
         else:
-            classes = [State, City]
+            classes = [State, User, City]
             obj_list = []
             for cls in classes:
                 obj_list.extend(self.__session.query(cls))
@@ -80,7 +81,6 @@ class DBStorage():
             self.__session.delete(obj)
 
     def reload(self):
-        session = (sessionmaker(bind=self.__engine,
-            expire_on_commit=False))
+        session = (sessionmaker(bind=self.__engine, expire_on_commit=False))
         Base.metadata.create_all(self.__engine)
         self.__session = scoped_session(session)
