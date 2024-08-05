@@ -3,18 +3,26 @@
 A City module.
 '''
 
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 import models
+from os import getenv
+from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, ForeignKey
 
 
-class City(BaseModel):
+class City(BaseModel, Base):
     '''
     A City class, subclass of BaseModel class with
     public class attributes of type string.
     '''
-
-    state_id = ""
-    name = ""
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        __tablename__ = 'cities'
+        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
+        name = Column(String(128), nullable=False)
+        state = relationship('State', back_populates='cities')
+    else:
+        name = ""
+        state_id = ""
 
     def __init__(self, *args, **kwargs):
         '''
@@ -22,24 +30,3 @@ class City(BaseModel):
         Initializes instances of a City.
         '''
         super().__init__(*args, **kwargs)
-
-    def __str__(self):
-        '''
-        Modifies the string representation of the
-        a City. Inherits from the BaseModel class str method.
-        '''
-        return super().__str__()
-
-    def save(self):
-        '''
-        Updates the update_at attribute of a City
-        and saves the City to a file.
-        '''
-        super().save()
-
-    def to_dict(self):
-        '''
-        Appends the City class name to the City's dict object
-        and returns the updated object.
-        '''
-        return super().to_dict()
