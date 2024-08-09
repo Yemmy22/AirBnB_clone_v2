@@ -3,11 +3,14 @@
 A Review module.
 '''
 
-from models.base_model import BaseModel
 import models
+from models.base_model import BaseModel, Base
+from os import getenv
+from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 
-class Review(BaseModel):
+class Review(BaseModel, Base):
     '''
     A Review class, subclass of BaseModel class with
     public class attributes of type string.
@@ -17,30 +20,17 @@ class Review(BaseModel):
     user_id = ""
     text = ""
 
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        __tablename__ = 'reviews'
+        text = Column(String(1024), nullable=False)
+        place_id = Column(String(60), ForeignKey('places.id'), nullable=False)
+        user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+        user = relationship('User', back_populates='reviews')
+        place = relationship('Place', back_populates='reviews')
+
     def __init__(self, *args, **kwargs):
         '''
         Class constructor inherits BaseModel class constructor.
         Initializes instances of a Review.
         '''
         super().__init__(*args, **kwargs)
-
-    def __str__(self):
-        '''
-        Modifies the string representation of the
-        a Review. Inherits from the BaseModel class str method.
-        '''
-        return super().__str__()
-
-    def save(self):
-        '''
-        Updates the update_at attribute of a Review
-        and saves the Review to a file.
-        '''
-        super().save()
-
-    def to_dict(self):
-        '''
-        Appends the Review class name to the Review's dict object
-        and returns the updated object.
-        '''
-        return super().to_dict()

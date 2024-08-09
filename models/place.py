@@ -1,10 +1,11 @@
-#!/usr/bin/python3
+#!/usr/bin/python3cascade='all, delete-orphan'
 '''
 A Place module.
 '''
 
-from models.base_model import BaseModel, Base
 import models
+from models.review import Review
+from models.base_model import BaseModel, Base
 from os import getenv
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
@@ -42,6 +43,7 @@ class Place(BaseModel, Base):
         longitude = Column(Float)
         user = relationship('User', back_populates='places')
         cities = relationship('City', back_populates='places')
+        reviews = relationship('Review', back_populates='place')
 
     def __init__(self, *args, **kwargs):
         '''
@@ -49,3 +51,13 @@ class Place(BaseModel, Base):
         Initializes instances of a Place.
         '''
         super().__init__(*args, **kwargs)
+
+    if getenv('HBNB_TYPE_STORAGE') != 'db':
+        @property
+        def reviews(self):
+            all_review = models.storage.all(Review)
+            obj_list = []
+            for obj in all_review.values():
+                if self.id == obj.place_id:
+                    obj_list.append(obj)
+            return obj_list

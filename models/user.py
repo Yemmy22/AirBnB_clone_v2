@@ -3,8 +3,8 @@
 A User module.
 '''
 
-from models.base_model import BaseModel, Base
 import models
+from models.base_model import BaseModel, Base
 from os import getenv
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
@@ -28,6 +28,7 @@ class User(BaseModel, Base):
         first_name = Column(String(128))
         last_name = Column(String(128))
         places = relationship('Place', back_populates='user')
+        reviews = relationship('Review', back_populates='user')
 
     def __init__(self, *args, **kwargs):
         '''
